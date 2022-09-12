@@ -7,9 +7,9 @@ import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 @Data
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class BirthdayCreationRequest {
-  private String firstName;
-  private String lastName;
-  private int month;
   private int date;
+  private int month;
   private short priority;
+  private String lastName;
+  private String firstName;
 }

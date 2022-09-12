@@ -18,11 +18,11 @@ public class BirthdayServiceImpl implements BirthdayService {
   public Birthday createBirthday(BirthdayCreationRequest birthdayCreationRequest) {
     return birthdayRepository.save(
         new Birthday().toBuilder()
-            .month(birthdayCreationRequest.getMonth())
             .date(birthdayCreationRequest.getDate())
-            .firstName(birthdayCreationRequest.getFirstName())
+            .month(birthdayCreationRequest.getMonth())
             .lastName(birthdayCreationRequest.getLastName())
             .priority(birthdayCreationRequest.getPriority())
+            .firstName(birthdayCreationRequest.getFirstName())
             .build()
     );
   }
