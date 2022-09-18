@@ -1,4 +1,4 @@
-package com.shervilg.spinboard.dto;
+package com.shervilg.spinboard.dto.request;
 
 import lombok.Data;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
@@ -8,7 +8,7 @@ import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class BirthdayCreationRequest {
   private int date;
-  private int month;
+  private String month;
   private short priority;
   private String lastName;
   private String firstName;

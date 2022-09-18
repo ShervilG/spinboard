@@ -1,10 +1,13 @@
 package com.shervilg.spinboard.service.impl;
 
+import com.shervilg.spinboard.common.enums.Month;
 import com.shervilg.spinboard.entity.Birthday;
+import com.shervilg.spinboard.exception.RequestValidationException;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import com.shervilg.spinboard.repo.BirthdayRepository;
 import com.shervilg.spinboard.service.BirthdayService;
-import com.shervilg.spinboard.dto.BirthdayCreationRequest;
+import com.shervilg.spinboard.dto.request.BirthdayCreationRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 
 
@@ -16,14 +19,29 @@ public class BirthdayServiceImpl implements BirthdayService {
 
   @Override
   public Birthday createBirthday(BirthdayCreationRequest birthdayCreationRequest) {
+    validateBirthdayCreationRequest(birthdayCreationRequest);
+
     return birthdayRepository.save(
         new Birthday().toBuilder()
             .date(birthdayCreationRequest.getDate())
-            .month(birthdayCreationRequest.getMonth())
-            .lastName(birthdayCreationRequest.getLastName())
+            .month(Month.valueOf(birthdayCreationRequest.getMonth().strip()).getMonthNumber())
+            .lastName(birthdayCreationRequest.getLastName().strip())
             .priority(birthdayCreationRequest.getPriority())
-            .firstName(birthdayCreationRequest.getFirstName())
+            .firstName(birthdayCreationRequest.getFirstName().strip())
             .build()
     );
+  }
+
+  private void validateBirthdayCreationRequest(BirthdayCreationRequest birthdayCreationRequest) {
+    try {
+      Month month = Month.valueOf(birthdayCreationRequest.getMonth().strip());
+
+      if (StringUtils.isEmpty(birthdayCreationRequest.getFirstName())
+          || StringUtils.isEmpty(birthdayCreationRequest.getLastName())) {
+        throw new Exception();
+      }
+    } catch (Exception e) {
+      throw new RequestValidationException("Validations failed for the request. Kindly recheck the fields");
+    }
   }
 }
