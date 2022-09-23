@@ -7,6 +7,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @EnableScheduling
 @SpringBootApplication
 public class SpinboardApplication {
+
 	public static void main(String[] args) {
 		SpringApplication.run(SpinboardApplication.class, args);
 	}
