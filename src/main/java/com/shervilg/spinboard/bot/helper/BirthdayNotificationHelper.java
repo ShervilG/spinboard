@@ -23,8 +23,8 @@ public class BirthdayNotificationHelper {
     birthdayEmbed.setTitle("Birthday(s) Alert");
 
     birthdays.forEach(birthday -> {
-      String name = birthday.getFirstName() + " " + birthday.getLastName();
-      String line = birthday.getDate() + "-" + Month.of(birthday.getMonth()) + " | P" + birthday.getPriority();
+      String name = birthday.getFirstName() + " " + birthday.getLastName() + " | P" + birthday.getPriority();
+      String line = birthday.getDate() + "-" + Month.of(birthday.getMonth());
 
       birthdayEmbed.addField(name,line);
     });
