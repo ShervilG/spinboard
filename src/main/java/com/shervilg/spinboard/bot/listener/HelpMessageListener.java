@@ -19,7 +19,7 @@ public class HelpMessageListener extends MessageCreateListenerTemplate {
 
   @Override
   protected void performActionOnMessageCreateEvent() {
-    EmbedBuilder helpMessageEmbed = new EmbedBuilder().addField("testing", "like this !");
+    EmbedBuilder helpMessageEmbed = new EmbedBuilder().addField("List Of Commands", "Under construction !");
     messageCreateEvent.getChannel().sendMessage(helpMessageEmbed);
   }
 }

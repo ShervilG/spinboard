@@ -5,4 +5,5 @@ import com.shervilg.spinboard.dto.request.BirthdayCreationRequest;
 
 public interface BirthdayService {
   Birthday createBirthday(BirthdayCreationRequest birthdayCreationRequest);
+  void checkAndSendBirthdayNotification();
 }

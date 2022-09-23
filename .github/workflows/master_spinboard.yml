@@ -29,6 +29,7 @@ jobs:
           APPSETTING_COSMOS_DB: ${{secrets.APPSETTING_COSMOS_DB}}
           APPSETTING_SPINBOARD_SENDGRID_API_KEY: ${{secrets.APPSETTING_SPINBOARD_SENDGRID_API_KEY}}
           APPSETTING_DISCORD_BOT_TOKEN: ${{secrets.APPSETTING_DISCORD_BOT_TOKEN}}
+          APPSETTING_NOTIFICATION_CHANNELS: ${{secrets.APPSETTING_NOTIFICATION_CHANNELS}}
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v2
