@@ -4,7 +4,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import com.shervilg.spinboard.common.enums.DiscordChannel;
 import org.javacord.api.entity.message.embed.EmbedBuilder;
-import com.shervilg.spinboard.common.constant.DiscordConstant;
+import com.shervilg.spinboard.bot.common.CommandConstant;
 import com.shervilg.spinboard.bot.template.MessageCreateListenerTemplate;
 
 @Service
@@ -13,7 +13,7 @@ public class HelpMessageListener extends MessageCreateListenerTemplate {
   protected boolean isValidMessageCreateEvent() {
     return messageCreateEvent.getMessage().getChannel() != null
         && !StringUtils.isEmpty(messageCreateEvent.getMessage().getContent())
-        && messageCreateEvent.getMessage().getContent().startsWith(DiscordConstant.HELP_COMMAND)
+        && messageCreateEvent.getMessage().getContent().startsWith(CommandConstant.HELP_COMMAND)
         && messageCreateEvent.getMessage().getChannel().getId() == DiscordChannel.COMMANDS_CHANNEL.getChannelId();
   }
 

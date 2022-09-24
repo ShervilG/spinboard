@@ -50,6 +50,12 @@ public class BirthdayServiceImpl implements BirthdayService {
   }
 
   @Override
+  public List<Birthday> getAllBirthdays() {
+    return StreamSupport.stream(birthdayRepository.findAll().spliterator(), false)
+            .collect(Collectors.toList());
+  }
+
+  @Override
   public void checkAndSendBirthdayNotification() {
     Iterable<Birthday> birthdayList = birthdayRepository.findAll();
     if (!birthdayList.iterator().hasNext()) {
