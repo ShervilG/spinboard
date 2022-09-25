@@ -13,6 +13,8 @@ public abstract class ButtonClickListenerTemplate implements ButtonClickListener
     if (isValidButtonClickEvent()) {
       performActionOnButtonClickEvent();
     }
+
+    this.buttonClickEvent.getButtonInteraction().acknowledge();
   }
 
   protected abstract boolean isValidButtonClickEvent();
