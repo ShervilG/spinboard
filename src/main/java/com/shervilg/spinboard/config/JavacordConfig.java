@@ -3,6 +3,7 @@ package com.shervilg.spinboard.config;
 import java.util.List;
 import org.javacord.api.DiscordApi;
 import org.javacord.api.DiscordApiBuilder;
+import org.javacord.api.listener.interaction.ButtonClickListener;
 import org.springframework.context.annotation.Bean;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
@@ -16,13 +17,17 @@ public class JavacordConfig {
   private String discordBotToken;
 
   @Bean
-  public DiscordApi getDiscordApi(@Autowired List<MessageCreateListener> messageCreateListeners) {
+  public DiscordApi getDiscordApi(
+      @Autowired List<MessageCreateListener> messageCreateListeners,
+      @Autowired List<ButtonClickListener> buttonClickListeners
+  ) {
     DiscordApi discordApi = new DiscordApiBuilder()
         .setToken(discordBotToken)
         .login()
         .join();
 
     messageCreateListeners.forEach(discordApi::addMessageCreateListener);
+    buttonClickListeners.forEach(discordApi::addButtonClickListener);
 
     return discordApi;
   }

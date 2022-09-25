@@ -4,6 +4,7 @@ import java.time.Month;
 import java.util.List;
 import org.apache.commons.lang3.StringUtils;
 import com.shervilg.spinboard.entity.Birthday;
+import org.javacord.api.entity.channel.TextChannel;
 import org.springframework.stereotype.Service;
 import com.shervilg.spinboard.service.BirthdayService;
 import com.shervilg.spinboard.bot.common.CommandConstant;
@@ -23,7 +24,7 @@ public class BirthdayCommandListener extends MessageCreateListenerTemplate {
     String command = messageCreateEvent.getMessageContent().strip();
 
     if (CommandConstant.BIRTHDAY_LIST_COMMAND.equals(command)) {
-      listBirthdays();
+      listBirthdays(messageCreateEvent.getChannel());
     } else {
       messageCreateEvent.getChannel().sendMessage("Invalid bday Command !");
     }
@@ -37,7 +38,7 @@ public class BirthdayCommandListener extends MessageCreateListenerTemplate {
         && messageCreateEvent.getMessage().getChannel().getId() == DiscordChannel.COMMANDS_CHANNEL.getChannelId();
   }
 
-  private void listBirthdays() {
+  public void listBirthdays(TextChannel textChannel) {
     List<Birthday> birthdays = birthdayService.getAllBirthdays();
 
     if (birthdays == null || birthdays.size() == 0) {
@@ -54,6 +55,6 @@ public class BirthdayCommandListener extends MessageCreateListenerTemplate {
       embed.addField(name, line);
     });
 
-    messageCreateEvent.getChannel().sendMessage(embed);
+    textChannel.sendMessage(embed);
   }
 }
