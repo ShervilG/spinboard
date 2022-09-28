@@ -8,6 +8,7 @@ import com.shervilg.spinboard.entity.Gift;
 import org.springframework.stereotype.Service;
 import com.shervilg.spinboard.repo.GiftRepository;
 import org.javacord.api.entity.channel.TextChannel;
+import com.shervilg.spinboard.common.enums.GiftType;
 import org.javacord.api.entity.message.MessageBuilder;
 import com.shervilg.spinboard.bot.common.ServerConstant;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,5 +39,16 @@ public class AnviDayNotificationHelper {
     }
 
     int randomNumber = Math.max(0, Math.min(gifts.size() - 1, (int)Math.floor(Math.random() * gifts.size())));
+    Gift randomGift = gifts.get(randomNumber);
+    messageBuilder.append("I present you with " + randomGift.getGiftName() + "\n");
+
+    if (randomGift.getGiftType().equals(GiftType.COUPON.name())) {
+      messageBuilder.append("Code: " + randomGift.getCouponCode() + "\n");
+      messageBuilder.append("Description: " + randomGift.getDescription() + "\n");
+      messageBuilder.append("Expiry: " + randomGift.getExpiryDate());
+    }
+
+    messageBuilder.send(channel);
+    giftRepository.delete(randomGift);
   }
 }

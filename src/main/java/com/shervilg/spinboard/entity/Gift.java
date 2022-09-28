@@ -1,6 +1,8 @@
 package com.shervilg.spinboard.entity;
 
+import com.azure.spring.data.cosmos.core.mapping.CosmosUniqueKey;
 import lombok.Data;
+import lombok.Builder;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
 import org.springframework.data.annotation.Id;
@@ -11,6 +13,7 @@ import com.azure.spring.data.cosmos.core.mapping.GeneratedValue;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder(toBuilder = true)
 @Container(containerName = "Gift", autoCreateContainer = true)
 public class Gift {
   @Id
@@ -28,4 +31,6 @@ public class Gift {
 
   @JsonProperty("expiry_date")
   private String expiryDate;
+
+  private String description;
 }

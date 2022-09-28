@@ -1,9 +1,6 @@
 package com.shervilg.spinboard.scheduler;
 
-import java.time.LocalDate;
-import java.time.temporal.ChronoUnit;
 import java.util.Date;
-
 import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.scheduling.annotation.Scheduled;
