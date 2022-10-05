@@ -6,6 +6,8 @@ import lombok.AllArgsConstructor;
 @Getter
 @AllArgsConstructor
 public enum AlexaIntent {
+  STOP_INTENT("AMAZON.StopIntent"),
+  CANCEL_INTENT("AMAZON.CancelIntent"),
   LIST_BDAY_INTENT("ListBirthdayIntent"),
   HELLO_WORLD_INTENT("HelloWorldIntent");
 
