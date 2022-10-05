@@ -1,4 +1,4 @@
-package com.shervilg.spinboard.bot.helper;
+package com.shervilg.spinboard.discord.helper;
 
 import java.time.Month;
 import java.util.List;
@@ -8,7 +8,7 @@ import com.shervilg.spinboard.entity.Birthday;
 import org.springframework.stereotype.Service;
 import org.javacord.api.entity.message.Message;
 import org.javacord.api.entity.message.MessageBuilder;
-import com.shervilg.spinboard.bot.common.ServerConstant;
+import com.shervilg.spinboard.discord.common.ServerConstant;
 import org.javacord.api.entity.message.embed.EmbedBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 

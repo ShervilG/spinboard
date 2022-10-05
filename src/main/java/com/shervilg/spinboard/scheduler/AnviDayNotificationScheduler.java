@@ -5,7 +5,7 @@ import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.beans.factory.annotation.Autowired;
-import com.shervilg.spinboard.bot.helper.AnviDayNotificationHelper;
+import com.shervilg.spinboard.discord.helper.AnviDayNotificationHelper;
 
 @Component
 public class AnviDayNotificationScheduler {

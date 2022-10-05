@@ -1,4 +1,4 @@
-package com.shervilg.spinboard.bot.listener;
+package com.shervilg.spinboard.discord.listener;
 
 import java.util.List;
 import java.util.ArrayList;
@@ -7,11 +7,11 @@ import org.javacord.api.entity.channel.TextChannel;
 import org.springframework.stereotype.Service;
 import org.javacord.api.entity.message.MessageBuilder;
 import org.javacord.api.entity.message.component.Button;
-import com.shervilg.spinboard.bot.common.CommandConstant;
+import com.shervilg.spinboard.discord.common.CommandConstant;
 import com.shervilg.spinboard.common.enums.DiscordChannel;
 import org.javacord.api.entity.message.embed.EmbedBuilder;
 import org.javacord.api.entity.message.component.LowLevelComponent;
-import com.shervilg.spinboard.bot.template.MessageCreateListenerTemplate;
+import com.shervilg.spinboard.discord.template.MessageCreateListenerTemplate;
 
 @Service
 public class HelpMessageListener extends MessageCreateListenerTemplate {

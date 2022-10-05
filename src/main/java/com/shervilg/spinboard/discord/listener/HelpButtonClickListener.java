@@ -1,10 +1,10 @@
-package com.shervilg.spinboard.bot.listener;
+package com.shervilg.spinboard.discord.listener;
 
-import com.shervilg.spinboard.bot.common.CommandConstant;
+import com.shervilg.spinboard.discord.common.CommandConstant;
 import com.shervilg.spinboard.common.enums.DiscordChannel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.shervilg.spinboard.bot.template.ButtonClickListenerTemplate;
+import com.shervilg.spinboard.discord.template.ButtonClickListenerTemplate;
 
 @Service
 public class HelpButtonClickListener extends ButtonClickListenerTemplate {

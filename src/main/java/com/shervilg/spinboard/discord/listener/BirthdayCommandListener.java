@@ -1,4 +1,4 @@
-package com.shervilg.spinboard.bot.listener;
+package com.shervilg.spinboard.discord.listener;
 
 import java.time.Month;
 import java.util.List;
@@ -7,11 +7,11 @@ import com.shervilg.spinboard.entity.Birthday;
 import org.javacord.api.entity.channel.TextChannel;
 import org.springframework.stereotype.Service;
 import com.shervilg.spinboard.service.BirthdayService;
-import com.shervilg.spinboard.bot.common.CommandConstant;
+import com.shervilg.spinboard.discord.common.CommandConstant;
 import org.javacord.api.entity.message.embed.EmbedBuilder;
 import com.shervilg.spinboard.common.enums.DiscordChannel;
 import org.springframework.beans.factory.annotation.Autowired;
-import com.shervilg.spinboard.bot.template.MessageCreateListenerTemplate;
+import com.shervilg.spinboard.discord.template.MessageCreateListenerTemplate;
 
 @Service
 public class BirthdayCommandListener extends MessageCreateListenerTemplate {

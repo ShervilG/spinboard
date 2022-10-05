@@ -5,10 +5,10 @@ import org.javacord.api.DiscordApiBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
-import com.shervilg.spinboard.bot.listener.HelpMessageListener;
-import com.shervilg.spinboard.bot.listener.BirthdayCommandListener;
-import com.shervilg.spinboard.bot.listener.HelpButtonClickListener;
-import com.shervilg.spinboard.bot.listener.BirthdayButtonClickListener;
+import com.shervilg.spinboard.discord.listener.HelpMessageListener;
+import com.shervilg.spinboard.discord.listener.BirthdayCommandListener;
+import com.shervilg.spinboard.discord.listener.HelpButtonClickListener;
+import com.shervilg.spinboard.discord.listener.BirthdayButtonClickListener;
 
 @Configuration
 public class JavacordConfig {

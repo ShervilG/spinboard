@@ -1,4 +1,4 @@
-package com.shervilg.spinboard.bot.helper;
+package com.shervilg.spinboard.discord.helper;
 
 import java.util.List;
 import org.javacord.api.DiscordApi;
@@ -10,7 +10,7 @@ import com.shervilg.spinboard.repo.GiftRepository;
 import org.javacord.api.entity.channel.TextChannel;
 import com.shervilg.spinboard.common.enums.GiftType;
 import org.javacord.api.entity.message.MessageBuilder;
-import com.shervilg.spinboard.bot.common.ServerConstant;
+import com.shervilg.spinboard.discord.common.ServerConstant;
 import org.springframework.beans.factory.annotation.Autowired;
 
 @Service

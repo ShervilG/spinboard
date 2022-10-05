@@ -1,6 +1,5 @@
 package com.shervilg.spinboard.service.impl;
 
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.time.LocalDate;
@@ -12,7 +11,6 @@ import java.util.concurrent.Executors;
 import java.time.format.DateTimeFormatter;
 import java.util.concurrent.ExecutorService;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.time.CalendarUtils;
 import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.stereotype.Service;
 import com.shervilg.spinboard.entity.Birthday;
@@ -24,7 +22,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.shervilg.spinboard.common.enums.NotificationChannel;
 import com.shervilg.spinboard.dto.request.BirthdayCreationRequest;
 import com.shervilg.spinboard.exception.RequestValidationException;
-import com.shervilg.spinboard.bot.helper.BirthdayNotificationHelper;
+import com.shervilg.spinboard.discord.helper.BirthdayNotificationHelper;
 
 @Service
 public class BirthdayServiceImpl implements BirthdayService {
@@ -92,8 +90,12 @@ public class BirthdayServiceImpl implements BirthdayService {
   }
 
   @Override
-  public Birthday getNearestBirthday() {
+  public Birthday getNearestBirthday(String... args) {
     List<Birthday> birthdays = getAllBirthdays();
+
+    if (args != null && args.length > 0) {
+      birthdays = birthdays.stream().filter(birthday -> birthday.getPriority() == Integer.parseInt(args[0])).collect(Collectors.toList());
+    }
 
     if (birthdays == null || birthdays.size() == 0) {
       return null;

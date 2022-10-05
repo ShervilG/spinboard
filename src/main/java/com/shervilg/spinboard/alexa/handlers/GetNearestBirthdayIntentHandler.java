@@ -2,7 +2,9 @@ package com.shervilg.spinboard.alexa.handlers;
 
 import java.time.Month;
 import java.util.Optional;
+import com.amazon.ask.model.IntentRequest;
 import com.amazon.ask.model.Response;
+import com.amazon.ask.model.Slot;
 import com.amazon.ask.request.Predicates;
 import com.shervilg.spinboard.entity.Birthday;
 import org.springframework.stereotype.Component;
@@ -25,7 +27,16 @@ public class GetNearestBirthdayIntentHandler implements RequestHandler {
 
   @Override
   public Optional<Response> handle(HandlerInput handlerInput) {
-    Birthday nearestBirthday = birthdayService.getNearestBirthday();
+    IntentRequest intentRequest = (IntentRequest) handlerInput.getRequestEnvelope().getRequest();
+    Slot prioritySlot = intentRequest.getIntent().getSlots().get("priority");
+
+    Birthday nearestBirthday = null;
+    if (prioritySlot != null) {
+      nearestBirthday = birthdayService.getNearestBirthday(prioritySlot.getValue().substring(1));
+    } else {
+      nearestBirthday = birthdayService.getNearestBirthday();
+    }
+
     String speechText = (nearestBirthday == null) ? "No nearest Birthday !"
         : nearestBirthday.getFirstName() + " " + nearestBirthday.getLastName() + " " + nearestBirthday.getDate()
           + Month.of(nearestBirthday.getMonth());

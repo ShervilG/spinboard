@@ -1,4 +1,4 @@
-package com.shervilg.spinboard.bot.common;
+package com.shervilg.spinboard.discord.common;
 
 public class ServerConstant {
   public static final long SPINBOARD_SERVER_ID = 1021141496344358973L;

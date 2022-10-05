@@ -1,4 +1,4 @@
-package com.shervilg.spinboard.bot.common;
+package com.shervilg.spinboard.discord.common;
 
 import java.util.Map;
 

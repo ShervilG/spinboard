@@ -1,4 +1,4 @@
-package com.shervilg.spinboard.bot.template;
+package com.shervilg.spinboard.discord.template;
 
 import org.javacord.api.event.interaction.ButtonClickEvent;
 import org.javacord.api.listener.interaction.ButtonClickListener;
