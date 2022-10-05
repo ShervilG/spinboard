@@ -1,5 +1,6 @@
 package com.shervilg.spinboard.service.impl;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.time.LocalDate;
@@ -98,13 +99,11 @@ public class BirthdayServiceImpl implements BirthdayService {
       return null;
     }
 
-    Date dateNow = new Date();
-    DateUtils.addMinutes(dateNow, 330);
-
+    Date dateNow = DateUtils.addMinutes(new Date(), 330);
 
     birthdays.sort((firstBirthday, secondBirthday) -> {
-      Date firstDate = new Date(dateNow.getYear() + 1900, firstBirthday.getMonth(), firstBirthday.getDate());
-      Date secondDate = new Date(dateNow.getYear() + 1900, secondBirthday.getMonth(), secondBirthday.getDate());
+      Date firstDate = new Date(dateNow.getYear(), firstBirthday.getMonth(), firstBirthday.getDate());
+      Date secondDate = new Date(dateNow.getYear(), secondBirthday.getMonth(), secondBirthday.getDate());
 
       if (firstDate.getTime() < dateNow.getTime()) {
         firstDate.setYear(firstDate.getYear() + 1);
