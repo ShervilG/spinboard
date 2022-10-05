@@ -11,6 +11,7 @@ import java.util.concurrent.Executors;
 import java.time.format.DateTimeFormatter;
 import java.util.concurrent.ExecutorService;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.time.CalendarUtils;
 import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.stereotype.Service;
 import com.shervilg.spinboard.entity.Birthday;
@@ -102,8 +103,8 @@ public class BirthdayServiceImpl implements BirthdayService {
 
 
     birthdays.sort((firstBirthday, secondBirthday) -> {
-      Date firstDate = new Date(firstBirthday.getDate(), firstBirthday.getMonth(), dateNow.getYear());
-      Date secondDate = new Date(secondBirthday.getDate(), secondBirthday.getMonth(), dateNow.getYear());
+      Date firstDate = new Date(dateNow.getYear(), firstBirthday.getMonth(), firstBirthday.getDate());
+      Date secondDate = new Date(dateNow.getYear(), secondBirthday.getMonth(), secondBirthday.getDate());
 
       if (firstDate.getTime() < dateNow.getTime()) {
         firstDate.setYear(firstDate.getYear() + 1);
