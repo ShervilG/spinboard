@@ -9,4 +9,5 @@ public interface BirthdayService {
   Birthday createBirthday(BirthdayCreationRequest birthdayCreationRequest);
   List<Birthday> getAllBirthdays();
   void checkAndSendBirthdayNotification();
+  Birthday getNearestBirthday();
 }

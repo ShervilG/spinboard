@@ -1,5 +1,6 @@
 package com.shervilg.spinboard.service.impl;
 
+import java.util.Date;
 import java.util.List;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -10,6 +11,7 @@ import java.util.concurrent.Executors;
 import java.time.format.DateTimeFormatter;
 import java.util.concurrent.ExecutorService;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.stereotype.Service;
 import com.shervilg.spinboard.entity.Birthday;
 import com.shervilg.spinboard.common.enums.Month;
@@ -85,6 +87,35 @@ public class BirthdayServiceImpl implements BirthdayService {
     }
 
     sendParallelBirthdayNotifications(eligibleBirthdaysList, notificationChannelList);
+  }
+
+  @Override
+  public Birthday getNearestBirthday() {
+    List<Birthday> birthdays = getAllBirthdays();
+
+    if (birthdays == null || birthdays.size() == 0) {
+      return null;
+    }
+
+    Date dateNow = new Date();
+    DateUtils.addMinutes(dateNow, 330);
+
+
+    birthdays.sort((firstBirthday, secondBirthday) -> {
+      Date firstDate = new Date(firstBirthday.getDate(), firstBirthday.getMonth(), dateNow.getYear());
+      Date secondDate = new Date(secondBirthday.getDate(), secondBirthday.getMonth(), dateNow.getYear());
+
+      if (firstDate.getTime() < dateNow.getTime()) {
+        firstDate.setYear(firstDate.getYear() + 1);
+      }
+      if (secondDate.getTime() < dateNow.getTime()) {
+        secondDate.setYear(secondDate.getYear() + 1);
+      }
+
+      return firstDate.compareTo(secondDate);
+    });
+
+    return birthdays.get(0);
   }
 
   private void sendParallelBirthdayNotifications(List<Birthday> birthdays, List<NotificationChannel> notificationChannelList) {
