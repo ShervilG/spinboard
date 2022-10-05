@@ -103,8 +103,8 @@ public class BirthdayServiceImpl implements BirthdayService {
 
 
     birthdays.sort((firstBirthday, secondBirthday) -> {
-      Date firstDate = new Date(dateNow.getYear(), firstBirthday.getMonth(), firstBirthday.getDate());
-      Date secondDate = new Date(dateNow.getYear(), secondBirthday.getMonth(), secondBirthday.getDate());
+      Date firstDate = new Date(dateNow.getYear() + 1900, firstBirthday.getMonth(), firstBirthday.getDate());
+      Date secondDate = new Date(dateNow.getYear() + 1900, secondBirthday.getMonth(), secondBirthday.getDate());
 
       if (firstDate.getTime() < dateNow.getTime()) {
         firstDate.setYear(firstDate.getYear() + 1);
