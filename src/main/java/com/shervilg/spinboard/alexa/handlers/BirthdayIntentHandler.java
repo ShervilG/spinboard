@@ -1,5 +1,6 @@
 package com.shervilg.spinboard.alexa.handlers;
 
+import java.time.Month;
 import java.util.List;
 import java.util.Optional;
 import java.util.StringJoiner;
@@ -40,7 +41,7 @@ public class BirthdayIntentHandler implements RequestHandler {
 
     birthdays.forEach(birthday -> {
       String temp = birthday.getFirstName() + " " + birthday.getLastName() + " ";
-      temp += birthday.getDate() + "/" + birthday.getMonth();
+      temp += birthday.getDate() + " " + Month.of(birthday.getMonth());
 
       joiner.add(temp);
     });
