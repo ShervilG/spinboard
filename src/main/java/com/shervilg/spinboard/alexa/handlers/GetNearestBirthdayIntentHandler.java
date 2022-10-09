@@ -35,7 +35,7 @@ public class GetNearestBirthdayIntentHandler implements RequestHandler {
       nearestBirthday = birthdayService.getNearestBirthday(prioritySlot.getValue().substring(1));
     } else {
       nearestBirthday = birthdayService.getNearestBirthday();
-    }6
+    }
 
     String speechText = (nearestBirthday == null) ? "No nearest Birthday !"
         : nearestBirthday.getFirstName() + " " + nearestBirthday.getLastName() + " " + nearestBirthday.getDate()
