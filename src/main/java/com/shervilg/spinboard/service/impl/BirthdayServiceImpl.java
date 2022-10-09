@@ -11,7 +11,6 @@ import java.util.concurrent.Executors;
 import java.time.format.DateTimeFormatter;
 import java.util.concurrent.ExecutorService;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.stereotype.Service;
 import com.shervilg.spinboard.entity.Birthday;
 import com.shervilg.spinboard.common.enums.Month;
