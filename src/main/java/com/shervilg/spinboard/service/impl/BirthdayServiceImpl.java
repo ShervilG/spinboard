@@ -1,9 +1,7 @@
 package com.shervilg.spinboard.service.impl;
 
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.stream.Collectors;
 import java.time.temporal.ChronoUnit;
 import java.util.stream.StreamSupport;
@@ -11,6 +9,7 @@ import java.util.concurrent.Executors;
 import java.time.format.DateTimeFormatter;
 import java.util.concurrent.ExecutorService;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.stereotype.Service;
 import com.shervilg.spinboard.entity.Birthday;
 import com.shervilg.spinboard.common.enums.Month;
@@ -100,20 +99,24 @@ public class BirthdayServiceImpl implements BirthdayService {
       return null;
     }
 
+    Map<String, Date> birthdayDateMap = new HashMap<>();
     Date dateNow = new Date();
 
+    birthdays.forEach(birthday -> {
+      Date date = new Date(dateNow.getYear(), birthday.getMonth(), birthday.getDate());
+
+      if (date.getTime() < dateNow.getTime()) {
+        date = DateUtils.addYears(date, 1);
+      }
+
+      birthdayDateMap.put(birthday.getId(), date);
+    });
+
     birthdays.sort((firstBirthday, secondBirthday) -> {
-      Date firstDate = new Date(dateNow.getYear(), firstBirthday.getMonth(), firstBirthday.getDate());
-      Date secondDate = new Date(dateNow.getYear(), secondBirthday.getMonth(), secondBirthday.getDate());
+      Date firstDate = birthdayDateMap.get(firstBirthday.getId());
+      Date secondDate = birthdayDateMap.get(secondBirthday.getId());
 
-      if (firstDate.getTime() < dateNow.getTime()) {
-        firstDate.setYear(firstDate.getYear() + 1);
-      }
-      if (secondDate.getTime() < dateNow.getTime()) {
-        secondDate.setYear(secondDate.getYear() + 1);
-      }
-
-      return (int)(firstDate.getTime() - secondDate.getTime());
+      return firstDate.compareTo(secondDate);
     });
 
     return birthdays.get(0);
