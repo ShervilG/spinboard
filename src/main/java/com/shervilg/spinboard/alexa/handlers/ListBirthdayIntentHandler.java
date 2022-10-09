@@ -32,7 +32,7 @@ public class ListBirthdayIntentHandler implements RequestHandler {
 
     return handlerInput.getResponseBuilder()
         .withSpeech(speechText)
-        .withShouldEndSession(false)
+        .withShouldEndSession(true)
         .build();
   }
 

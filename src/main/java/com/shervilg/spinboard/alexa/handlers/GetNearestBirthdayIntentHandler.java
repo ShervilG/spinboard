@@ -43,7 +43,7 @@ public class GetNearestBirthdayIntentHandler implements RequestHandler {
 
     return handlerInput.getResponseBuilder()
         .withSpeech(speechText)
-        .withShouldEndSession(false)
+        .withShouldEndSession(true)
         .build();
   }
 }
