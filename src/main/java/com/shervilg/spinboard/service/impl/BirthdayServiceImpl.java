@@ -9,7 +9,6 @@ import java.util.concurrent.Executors;
 import java.time.format.DateTimeFormatter;
 import java.util.concurrent.ExecutorService;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.stereotype.Service;
 import com.shervilg.spinboard.entity.Birthday;
 import com.shervilg.spinboard.common.enums.Month;
@@ -103,10 +102,10 @@ public class BirthdayServiceImpl implements BirthdayService {
     Date dateNow = new Date();
 
     birthdays.forEach(birthday -> {
-      Date date = new Date(dateNow.getYear(), birthday.getMonth(), birthday.getDate());
+      Date date = new Date(dateNow.getYear(), birthday.getMonth() - 1, birthday.getDate());
 
       if (date.getTime() < dateNow.getTime()) {
-        date = DateUtils.addYears(date, 1);
+        date.setYear(date.getYear() + 1);
       }
 
       birthdayDateMap.put(birthday.getId(), date);
