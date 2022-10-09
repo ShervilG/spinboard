@@ -101,7 +101,7 @@ public class BirthdayServiceImpl implements BirthdayService {
       return null;
     }
 
-    Date dateNow = DateUtils.addMinutes(new Date(), 330);
+    Date dateNow = new Date();
 
     birthdays.sort((firstBirthday, secondBirthday) -> {
       Date firstDate = new Date(dateNow.getYear(), firstBirthday.getMonth(), firstBirthday.getDate());
