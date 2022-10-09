@@ -113,7 +113,7 @@ public class BirthdayServiceImpl implements BirthdayService {
         secondDate.setYear(secondDate.getYear() + 1);
       }
 
-      return firstDate.compareTo(secondDate);
+      return (int)(firstDate.getTime() - secondDate.getTime());
     });
 
     return birthdays.get(0);
