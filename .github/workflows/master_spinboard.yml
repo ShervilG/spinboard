@@ -24,12 +24,15 @@ jobs:
       - name: Build with Maven
         run: mvn clean install
         env:
+          APPSETTING_COSMOS_DB: ${{secrets.APPSETTING_COSMOS_DB}}
+          APPSETTING_REDIS_PORT: ${{secrets.APPSETTING_REDIS_PORT}}
+          APPSETTING_REDIS_HOST: ${{secrets.APPSETTING_REDIS_HOST}}
           APPSETTING_COSMOS_URL: ${{secrets.APPSETTING_COSMOS_URL}}
           APPSETTING_COSMOS_KEY: ${{secrets.APPSETTING_COSMOS_KEY}}
-          APPSETTING_COSMOS_DB: ${{secrets.APPSETTING_COSMOS_DB}}
-          APPSETTING_SPINBOARD_SENDGRID_API_KEY: ${{secrets.APPSETTING_SPINBOARD_SENDGRID_API_KEY}}
+          APPSETTING_REDIS_PASSWORD: ${{secrets.APPSETTING_REDIS_PASSWORD}}
           APPSETTING_DISCORD_BOT_TOKEN: ${{secrets.APPSETTING_DISCORD_BOT_TOKEN}}
           APPSETTING_NOTIFICATION_CHANNELS: ${{secrets.APPSETTING_NOTIFICATION_CHANNELS}}
+          APPSETTING_SPINBOARD_SENDGRID_API_KEY: ${{secrets.APPSETTING_SPINBOARD_SENDGRID_API_KEY}}
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v2
