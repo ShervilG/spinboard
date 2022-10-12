@@ -1,5 +1,6 @@
 package com.shervilg.spinboard.helper.impl;
 
+import java.util.concurrent.TimeUnit;
 import org.springframework.stereotype.Service;
 import com.shervilg.spinboard.helper.RedisHelper;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -32,7 +33,9 @@ public class SimpleRedisHelper implements RedisHelper {
   public<T> void setKey(String key, T value) {
     try {
       String valueString = objectMapper.writeValueAsString(value);
+
       redisTemplate.opsForValue().set(key, valueString);
+      redisTemplate.expire(key, 12, TimeUnit.HOURS);
     } catch (Exception e) {
       e.printStackTrace();
     }
