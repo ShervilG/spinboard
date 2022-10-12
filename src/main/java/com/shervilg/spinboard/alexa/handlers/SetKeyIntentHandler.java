@@ -14,15 +14,16 @@ import com.amazon.ask.dispatcher.request.handler.HandlerInput;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.amazon.ask.dispatcher.request.handler.RequestHandler;
 
+
 @Component
-public class GetReminderIntentHandler implements RequestHandler {
+public class SetKeyIntentHandler implements RequestHandler {
 
   @Autowired
   private RedisHelper redisHelper;
 
   @Override
   public boolean canHandle(HandlerInput handlerInput) {
-    return handlerInput.matches(Predicates.intentName(AlexaIntent.GET_REMINDER_INTENT.getValue()));
+    return handlerInput.matches(Predicates.intentName(AlexaIntent.SET_KEY_INTENT.getValue()));
   }
 
   @Override
@@ -33,16 +34,12 @@ public class GetReminderIntentHandler implements RequestHandler {
 
     String reminderKey = slotMap.get("reminderKey").getValue();
     String key = AlexaSlotConstant.SLOT_VALUE_TO_REDIS_KEY_MAP.get(reminderKey);
-
     if (key == null) {
-      speechText = "No Such reminder key !";
+      speechText = "Bad Reminder Key Entered!";
     } else {
-      String value = redisHelper.getKey(key, String.class);
-      if (value == null) {
-        speechText = "No Such reminder key !";
-      } else {
-        speechText = reminderKey + " " + value;
-      }
+      String reminderValue = slotMap.get("reminderValue").getValue();
+      redisHelper.setKey(key, reminderValue);
+      speechText = reminderKey + " set to value " + reminderValue;
     }
 
     return handlerInput.getResponseBuilder()

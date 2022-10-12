@@ -11,8 +11,8 @@ public enum AlexaIntent {
   CANCEL_INTENT("AMAZON.CancelIntent"),
   LIST_BDAY_INTENT("ListBirthdayIntent"),
   HELLO_WORLD_INTENT("HelloWorldIntent"),
-  SET_REMINDER_INTENT("SetReminderIntent"),
-  GET_REMINDER_INTENT("GetReminderIntent");
+  SET_KEY_INTENT("SetKeyIntent"),
+  GET_KEY_INTENT("GetKeyIntent");
 
   private final String value;
 }
