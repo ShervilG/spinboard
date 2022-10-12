@@ -18,7 +18,7 @@ public class SimpleRedisHelper implements RedisHelper {
     try {
       if (redisTemplate.hasKey(key)) {
         String valueString = redisTemplate.opsForValue().get(key);
-        return objectMapper.convertValue(key, classType);
+        return objectMapper.convertValue(valueString, classType);
       }
 
       throw new Exception("Error while retrieving key: " + key);
