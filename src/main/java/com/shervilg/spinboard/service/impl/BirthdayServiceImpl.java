@@ -9,6 +9,7 @@ import java.util.concurrent.Executors;
 import java.time.format.DateTimeFormatter;
 import java.util.concurrent.ExecutorService;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import com.shervilg.spinboard.entity.Birthday;
 import com.shervilg.spinboard.common.enums.Month;
@@ -23,6 +24,8 @@ import com.shervilg.spinboard.discord.helper.BirthdayNotificationHelper;
 
 @Service
 public class BirthdayServiceImpl implements BirthdayService {
+
+  private static final String ALL_BDAYS_HASH_KEY = "AllBdays";
 
   @Value("${notification.channels}")
   private String notificationChannels;
@@ -49,6 +52,7 @@ public class BirthdayServiceImpl implements BirthdayService {
   }
 
   @Override
+  @Cacheable(key = ALL_BDAYS_HASH_KEY, cacheNames = "bdayCache")
   public List<Birthday> getAllBirthdays() {
     return StreamSupport.stream(birthdayRepository.findAll().spliterator(), false)
             .collect(Collectors.toList());
