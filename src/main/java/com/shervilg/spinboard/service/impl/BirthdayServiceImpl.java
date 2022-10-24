@@ -52,7 +52,6 @@ public class BirthdayServiceImpl implements BirthdayService {
   }
 
   @Override
-  @Cacheable(key = ALL_BDAYS_HASH_KEY, cacheNames = "bdayCache")
   public List<Birthday> getAllBirthdays() {
     return StreamSupport.stream(birthdayRepository.findAll().spliterator(), false)
             .collect(Collectors.toList());
