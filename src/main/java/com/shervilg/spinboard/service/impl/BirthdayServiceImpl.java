@@ -25,6 +25,8 @@ import com.shervilg.spinboard.discord.helper.BirthdayNotificationHelper;
 @Service
 public class BirthdayServiceImpl implements BirthdayService {
 
+  private static final String ALL_BDAYS_HASH_KEY = "AllBdays";
+
   @Value("${notification.channels}")
   private String notificationChannels;
 
@@ -50,6 +52,7 @@ public class BirthdayServiceImpl implements BirthdayService {
   }
 
   @Override
+  @Cacheable(key = ALL_BDAYS_HASH_KEY, cacheNames = "bdayCache")
   public List<Birthday> getAllBirthdays() {
     return StreamSupport.stream(birthdayRepository.findAll().spliterator(), false)
             .collect(Collectors.toList());
