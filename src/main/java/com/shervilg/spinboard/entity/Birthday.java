@@ -9,12 +9,14 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.azure.spring.data.cosmos.core.mapping.Container;
 import com.azure.spring.data.cosmos.core.mapping.GeneratedValue;
 
+import java.io.Serializable;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder(toBuilder = true)
 @Container(containerName = "Birthday", autoCreateContainer = true)
-public class Birthday {
+public class Birthday implements Serializable {
 
   @Id
   @GeneratedValue

@@ -52,6 +52,7 @@ public class BirthdayServiceImpl implements BirthdayService {
   }
 
   @Override
+  @Cacheable("birthdays")
   public List<Birthday> getAllBirthdays() {
     return StreamSupport.stream(birthdayRepository.findAll().spliterator(), false)
             .collect(Collectors.toList());
@@ -90,6 +91,7 @@ public class BirthdayServiceImpl implements BirthdayService {
   }
 
   @Override
+  @Cacheable("nearest-birthday")
   public Birthday getNearestBirthday(String... args) {
     List<Birthday> birthdays = getAllBirthdays();
 
