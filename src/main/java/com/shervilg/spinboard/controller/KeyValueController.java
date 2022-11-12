@@ -14,8 +14,9 @@ public class KeyValueController {
 
   @ClientAuthorization
   @PutMapping("/set")
-  public void putKey(@RequestParam(name = "key") String key, @RequestParam(name = "value") String value) {
+  public String putKey(@RequestParam(name = "key") String key, @RequestParam(name = "value") String value) {
     redisHelper.setKey(key, value);
+    return "Success !";
   }
 
   @ClientAuthorization
