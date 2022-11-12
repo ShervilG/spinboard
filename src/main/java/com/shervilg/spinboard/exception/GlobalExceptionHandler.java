@@ -20,4 +20,15 @@ public class GlobalExceptionHandler {
         , HttpStatus.BAD_REQUEST
     );
   }
+
+  @ExceptionHandler(value = UnauthorizedException.class)
+  public ResponseEntity<GlobalExceptionResponse> sendUnauthorizedExceptionResponse(UnauthorizedException e) {
+    return new ResponseEntity<>(
+        new GlobalExceptionResponse().toBuilder()
+            .code(ExceptionConstant.EXCEPTION_TO_CODE_MAP.get(e.getClass()))
+            .message(e.getMessage())
+            .build()
+        , HttpStatus.UNAUTHORIZED
+    );
+  }
 }
