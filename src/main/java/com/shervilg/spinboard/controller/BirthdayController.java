@@ -7,6 +7,7 @@ import com.shervilg.spinboard.dto.request.BirthdayCreationRequest;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.time.Month;
 import java.util.List;
 import java.util.StringJoiner;
 
@@ -38,8 +39,8 @@ public class BirthdayController {
     joiner.add(nearestBirthday.getFirstName());
     joiner.add(nearestBirthday.getLastName());
     joiner.add("" + nearestBirthday.getDate());
-    joiner.add("" + nearestBirthday.getMonth());
+    joiner.add("" + Month.of(nearestBirthday.getMonth()));
 
-    return joiner.toString();
+    return "\"" + joiner + "\"";
   }
 }
