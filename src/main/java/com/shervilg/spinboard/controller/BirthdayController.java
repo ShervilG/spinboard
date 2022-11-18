@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
+import java.util.StringJoiner;
 
 @RestController
 @RequestMapping("/birthday")
@@ -26,5 +27,19 @@ public class BirthdayController {
   @GetMapping("/list")
   public List<Birthday> listBirthdays() {
     return birthdayService.getAllBirthdays();
+  }
+
+  @ClientAuthorization
+  @GetMapping("/nearest")
+  public String getNearest() {
+    Birthday nearestBirthday = birthdayService.getNearestBirthday();
+    StringJoiner joiner = new StringJoiner(" ");
+
+    joiner.add(nearestBirthday.getFirstName());
+    joiner.add(nearestBirthday.getLastName());
+    joiner.add("" + nearestBirthday.getDate());
+    joiner.add("" + nearestBirthday.getMonth());
+
+    return joiner.toString();
   }
 }
