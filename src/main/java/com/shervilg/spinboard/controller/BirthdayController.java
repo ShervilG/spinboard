@@ -43,4 +43,10 @@ public class BirthdayController {
 
     return "\"" + joiner + "\"";
   }
+
+  @ClientAuthorization
+  @PostMapping("/send-notification/today")
+  public void sendTodaysBirthdayNotification() {
+    birthdayService.checkTodaysBirthdaysAndSendNotification();
+  }
 }

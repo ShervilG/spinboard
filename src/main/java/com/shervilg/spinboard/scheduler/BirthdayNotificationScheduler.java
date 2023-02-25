@@ -15,4 +15,9 @@ public class BirthdayNotificationScheduler {
   public void sendBirthdayNotification() {
     birthdayService.checkAndSendBirthdayNotification();
   }
+
+  @Scheduled(cron = "0 0 6 * * *")
+  public void sendDailyBirthdayNotification() {
+    birthdayService.checkTodaysBirthdaysAndSendNotification();
+  }
 }

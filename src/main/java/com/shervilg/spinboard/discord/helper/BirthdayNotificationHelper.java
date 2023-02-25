@@ -1,17 +1,18 @@
 package com.shervilg.spinboard.discord.helper;
 
 import java.time.Month;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
+
+import com.shervilg.spinboard.dto.request.AlexaBirthdayNotificationRequest;
 import org.javacord.api.DiscordApi;
 
-import java.util.Map;
-import java.util.StringJoiner;
 import java.util.concurrent.CompletableFuture;
 import com.shervilg.spinboard.entity.Birthday;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.web.client.RestTemplateBuilder;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.javacord.api.entity.message.Message;
 import org.javacord.api.entity.message.MessageBuilder;
@@ -28,9 +29,6 @@ public class BirthdayNotificationHelper {
 
   @Autowired
   private DiscordApi discordApi;
-
-  @Autowired
-  private RestTemplateBuilder restTemplateBuilder;
 
   public void sendBirthdayNotification(List<Birthday> birthdays) {
     EmbedBuilder birthdayEmbed = new EmbedBuilder();
@@ -63,17 +61,22 @@ public class BirthdayNotificationHelper {
       notificationStringJoiner.add(birthdayString);
     });
 
-    Map<String, String> urlParams = new HashMap<>();
-    urlParams.put("notification", notificationStringJoiner.toString());
-    urlParams.put("accessCode", alexaNotificationSkillAccessCode);
-    urlParams.put("title", title);
+    AlexaBirthdayNotificationRequest request = new AlexaBirthdayNotificationRequest();
+    request.setNotification(notificationStringJoiner.toString());
+    request.setAccessCode(alexaNotificationSkillAccessCode);
+    request.setTitle(title);
 
-    RestTemplate restTemplate = restTemplateBuilder.build();
+    HttpHeaders headers = new HttpHeaders();
+    headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
+    headers.setContentType(MediaType.APPLICATION_JSON);
+
+    HttpEntity<AlexaBirthdayNotificationRequest> requestHttpEntity = new HttpEntity<>(request, headers);
+
+    RestTemplate restTemplate = new RestTemplate();
     restTemplate.exchange(
         "https://api.notifymyecho.com/v1/NotifyMe",
         HttpMethod.POST,
-        null,
-        Object.class,
-        urlParams);
+        requestHttpEntity,
+        String.class);
   }
 }

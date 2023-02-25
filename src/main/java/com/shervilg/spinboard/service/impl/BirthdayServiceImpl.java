@@ -126,6 +126,26 @@ public class BirthdayServiceImpl implements BirthdayService {
     return birthdays.get(0);
   }
 
+  @Override
+  public void checkTodaysBirthdaysAndSendNotification() {
+    List<Birthday> birthdays = getAllBirthdays();
+
+    if (birthdays == null || birthdays.size() == 0) {
+      return;
+    }
+
+    Date today = new Date();
+    birthdays = birthdays.stream().filter(
+        birthday -> (birthday.getMonth() - 1 == today.getMonth() && birthday.getDate() == today.getDate()))
+        .collect(Collectors.toList());
+
+    if (birthdays.size() == 0) {
+      return;
+    }
+
+    birthdayNotificationHelper.sendBirthdayNotificationViaAlexa(birthdays);
+  }
+
   private void sendParallelBirthdayNotifications(List<Birthday> birthdays, List<NotificationChannel> notificationChannelList) {
     ExecutorService notificationExecutorService = Executors.newFixedThreadPool(notificationChannelList.size());
 

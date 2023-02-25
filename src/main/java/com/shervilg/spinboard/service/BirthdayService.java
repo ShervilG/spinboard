@@ -10,4 +10,5 @@ public interface BirthdayService {
   List<Birthday> getAllBirthdays();
   void checkAndSendBirthdayNotification();
   Birthday getNearestBirthday(String... args);
+  void checkTodaysBirthdaysAndSendNotification();
 }
