@@ -130,13 +130,11 @@ public class BirthdayServiceImpl implements BirthdayService {
     ExecutorService notificationExecutorService = Executors.newFixedThreadPool(notificationChannelList.size());
 
     for (NotificationChannel notificationChannel: notificationChannelList) {
-
       if(NotificationChannel.DISCORD.equals(notificationChannel)) {
         notificationExecutorService.submit(
             () -> birthdayNotificationHelper.sendBirthdayNotification(birthdays)
         );
       }
-
     }
 
     notificationExecutorService.shutdown();

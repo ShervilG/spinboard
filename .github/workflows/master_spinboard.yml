@@ -34,6 +34,7 @@ jobs:
           APPSETTING_NOTIFICATION_CHANNELS: ${{secrets.APPSETTING_NOTIFICATION_CHANNELS}}
           APPSETTING_SPINBOARD_SENDGRID_API_KEY: ${{secrets.APPSETTING_SPINBOARD_SENDGRID_API_KEY}}
           APPSETTING_AUTH_TOKEN: ${{secrets.APPSETTING_AUTH_TOKEN}}
+          APPSETTING_ALEXA_NOTIFY_ME_TOKEN: ${{secrets.APPSETTING_ALEXA_NOTIFY_ME_TOKEN}}
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v2
