@@ -55,6 +55,7 @@ public class BirthdayNotificationHelper {
   public void sendBirthdayNotificationViaAlexa(List<Birthday> birthdays) {
     String title = "Spinboard Birthday Alert";
     StringJoiner notificationStringJoiner = new StringJoiner(", ");
+    notificationStringJoiner.add("Birthday Reminder for, ");
 
     birthdays.forEach(birthday -> {
       String birthdayString = birthday.getFirstName() + " " + birthday.getLastName();
@@ -67,7 +68,7 @@ public class BirthdayNotificationHelper {
     request.setTitle(title);
 
     HttpHeaders headers = new HttpHeaders();
-    headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
+    headers.setAccept(List.of(MediaType.APPLICATION_JSON));
     headers.setContentType(MediaType.APPLICATION_JSON);
 
     HttpEntity<AlexaBirthdayNotificationRequest> requestHttpEntity = new HttpEntity<>(request, headers);
