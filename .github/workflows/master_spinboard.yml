@@ -1,47 +1,62 @@
-name: Build and Push Docker Image to Azure Container Registry
+name: Build and deploy JAR app to Azure Web App - spinboard
 
 on:
   push:
     branches:
       - master
-
-env:
-  IMAGE_NAME: spinboard-java-main
-  ACR_REGISTRY_USERNAME: ${{ secrets.ACR_REGISTRY_USERNAME }}
-  ACR_REGISTRY_PASSWORD: ${{ secrets.ACR_REGISTRY_PASSWORD }}
-  MAVEN_OPTS: "-Dmaven.repo.local=./.m2"
+  workflow_dispatch:
 
 jobs:
-  build-and-push:
+  build:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
+      - uses: actions/checkout@v2
 
-      - name: Login to Azure Container Registry
-        uses: azure/docker-login@v1
+      - name: Set up Java version
+        uses: actions/setup-java@v1
         with:
-          login-server: ${{ env.ACR_REGISTRY_USERNAME }}.azurecr.io
-          username: ${{ env.ACR_REGISTRY_USERNAME }}
-          password: ${{ env.ACR_REGISTRY_PASSWORD }}
+          java-version: '11'
 
-      - name: Build And Push Docker image
-        uses: docker/build-push-action@v2
+      - name: Build with Maven
+        run: mvn clean install
+        env:
+          APPSETTING_COSMOS_DB: ${{secrets.APPSETTING_COSMOS_DB}}
+          APPSETTING_REDIS_PORT: ${{secrets.APPSETTING_REDIS_PORT}}
+          APPSETTING_REDIS_HOST: ${{secrets.APPSETTING_REDIS_HOST}}
+          APPSETTING_COSMOS_URL: ${{secrets.APPSETTING_COSMOS_URL}}
+          APPSETTING_COSMOS_KEY: ${{secrets.APPSETTING_COSMOS_KEY}}
+          APPSETTING_REDIS_PASSWORD: ${{secrets.APPSETTING_REDIS_PASSWORD}}
+          APPSETTING_DISCORD_BOT_TOKEN: ${{secrets.APPSETTING_DISCORD_BOT_TOKEN}}
+          APPSETTING_NOTIFICATION_CHANNELS: ${{secrets.APPSETTING_NOTIFICATION_CHANNELS}}
+          APPSETTING_SPINBOARD_SENDGRID_API_KEY: ${{secrets.APPSETTING_SPINBOARD_SENDGRID_API_KEY}}
+          APPSETTING_AUTH_TOKEN: ${{secrets.APPSETTING_AUTH_TOKEN}}
+          APPSETTING_ALEXA_NOTIFY_ME_TOKEN: ${{secrets.APPSETTING_ALEXA_NOTIFY_ME_TOKEN}}
+
+      - name: Upload artifact for deployment job
+        uses: actions/upload-artifact@v2
         with:
-          context: .
-          push: true
-          tags: ${{ env.ACR_REGISTRY_USERNAME }}.azurecr.io/${{ env.IMAGE_NAME }}:${{ github.sha }}
-          build-args: |
-            MAVEN_OPTS=${{ env.MAVEN_OPTS }}
-            APPSETTING_COSMOS_DB: ${{secrets.APPSETTING_COSMOS_DB}}
-            APPSETTING_REDIS_PORT: ${{secrets.APPSETTING_REDIS_PORT}}
-            APPSETTING_REDIS_HOST: ${{secrets.APPSETTING_REDIS_HOST}}
-            APPSETTING_COSMOS_URL: ${{secrets.APPSETTING_COSMOS_URL}}
-            APPSETTING_COSMOS_KEY: ${{secrets.APPSETTING_COSMOS_KEY}}
-            APPSETTING_REDIS_PASSWORD: ${{secrets.APPSETTING_REDIS_PASSWORD}}
-            APPSETTING_DISCORD_BOT_TOKEN: ${{secrets.APPSETTING_DISCORD_BOT_TOKEN}}
-            APPSETTING_NOTIFICATION_CHANNELS: ${{secrets.APPSETTING_NOTIFICATION_CHANNELS}}
-            APPSETTING_SPINBOARD_SENDGRID_API_KEY: ${{secrets.APPSETTING_SPINBOARD_SENDGRID_API_KEY}}
-            APPSETTING_AUTH_TOKEN: ${{secrets.APPSETTING_AUTH_TOKEN}}
-            APPSETTING_ALEXA_NOTIFY_ME_TOKEN: ${{secrets.APPSETTING_ALEXA_NOTIFY_ME_TOKEN}}
+          name: java-app
+          path: '${{ github.workspace }}/target/*.jar'
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+    environment:
+      name: 'Production'
+      url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
+
+    steps:
+      - name: Download artifact from build job
+        uses: actions/download-artifact@v2
+        with:
+          name: java-app
+
+      - name: Deploy to Azure Web App
+        id: deploy-to-webapp
+        uses: azure/webapps-deploy@v2
+        with:
+          app-name: 'spinboard'
+          slot-name: 'Production'
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_AB496CD1C8534A639E80FD263A63620C }}
+          package: '*.jar'
