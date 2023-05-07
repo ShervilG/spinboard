@@ -19,7 +19,14 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
-      - name: Build Docker image
+      - name: Login to Azure Container Registry
+        uses: azure/docker-login@v1
+        with:
+          login-server: ${{ env.ACR_REGISTRY_USERNAME }}.azurecr.io
+          username: ${{ env.ACR_REGISTRY_USERNAME }}
+          password: ${{ env.ACR_REGISTRY_PASSWORD }}
+
+      - name: Build And Push Docker image
         uses: docker/build-push-action@v2
         with:
           context: .
@@ -38,6 +45,3 @@ jobs:
             APPSETTING_SPINBOARD_SENDGRID_API_KEY: ${{secrets.APPSETTING_SPINBOARD_SENDGRID_API_KEY}}
             APPSETTING_AUTH_TOKEN: ${{secrets.APPSETTING_AUTH_TOKEN}}
             APPSETTING_ALEXA_NOTIFY_ME_TOKEN: ${{secrets.APPSETTING_ALEXA_NOTIFY_ME_TOKEN}}
-          registry: ${{ env.ACR_REGISTRY_USERNAME }}.azurecr.io
-          username: ${{ env.ACR_REGISTRY_USERNAME }}
-          password: ${{ env.ACR_REGISTRY_PASSWORD }}
