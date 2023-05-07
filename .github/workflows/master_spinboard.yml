@@ -32,6 +32,19 @@ jobs:
 
       - name: Build with Maven
         run: mvn -B package --file pom.xml
+        with:
+          build-args: |
+            APPSETTING_COSMOS_DB: ${{secrets.APPSETTING_COSMOS_DB}}
+            APPSETTING_REDIS_PORT: ${{secrets.APPSETTING_REDIS_PORT}}
+            APPSETTING_REDIS_HOST: ${{secrets.APPSETTING_REDIS_HOST}}
+            APPSETTING_COSMOS_URL: ${{secrets.APPSETTING_COSMOS_URL}}
+            APPSETTING_COSMOS_KEY: ${{secrets.APPSETTING_COSMOS_KEY}}
+            APPSETTING_REDIS_PASSWORD: ${{secrets.APPSETTING_REDIS_PASSWORD}}
+            APPSETTING_DISCORD_BOT_TOKEN: ${{secrets.APPSETTING_DISCORD_BOT_TOKEN}}
+            APPSETTING_NOTIFICATION_CHANNELS: ${{secrets.APPSETTING_NOTIFICATION_CHANNELS}}
+            APPSETTING_SPINBOARD_SENDGRID_API_KEY: ${{secrets.APPSETTING_SPINBOARD_SENDGRID_API_KEY}}
+            APPSETTING_AUTH_TOKEN: ${{secrets.APPSETTING_AUTH_TOKEN}}
+            APPSETTING_ALEXA_NOTIFY_ME_TOKEN: ${{secrets.APPSETTING_ALEXA_NOTIFY_ME_TOKEN}}
 
       - name: Build Docker image
         uses: docker/build-push-action@v2
