@@ -1,31 +1,46 @@
-name: Build and push Docker image to Azure Container Registry
+name: Build and Push Docker Image to Azure Container Registry
+
 on:
   push:
     branches:
-      - master
+      - main
+
+env:
+  IMAGE_NAME: spinboard-java-main
+  ACR_USERNAME: ${{ secrets.ACR_REGISTRY_USERNAME }}
+  ACR_PASSWORD: ${{ secrets.ACR_REGISTRY_PASSWORD }}
+  MAVEN_OPTS: "-Dmaven.repo.local=./.m2"
+
 jobs:
   build-and-push:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout code
+      - name: Checkout repository
         uses: actions/checkout@v2
-      - name: Set up JDK 11
+
+      - name: Setup Java environment
         uses: actions/setup-java@v1
         with:
-          java-version: 11
-      - name: Giving mvn permission
-        run: chmod +x mvnw
-      - name: Build JAR file
-        run: ./mvnw package -DskipTests=true
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v1
-      - name: Build and push image
+          java-version: '11'
+
+      - name: Cache Maven packages
+        uses: actions/cache@v2
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+
+      - name: Build with Maven
+        run: mvn -B package --file pom.xml
+
+      - name: Build Docker image
         uses: docker/build-push-action@v2
         with:
           context: .
           push: true
-          tags: ${{ secrets.ACR_LOGIN_SERVER }}/spinboard-java-main:${{ github.sha }}
+          tags: ${{ env.ACR_REGISTRY_USERNAME }}.azurecr.io/${{ env.IMAGE_NAME }}:${{ github.sha }}
           build-args: |
+            MAVEN_OPTS=${{ env.MAVEN_OPTS }}
             APPSETTING_COSMOS_DB: ${{secrets.APPSETTING_COSMOS_DB}}
             APPSETTING_REDIS_PORT: ${{secrets.APPSETTING_REDIS_PORT}}
             APPSETTING_REDIS_HOST: ${{secrets.APPSETTING_REDIS_HOST}}
@@ -37,9 +52,6 @@ jobs:
             APPSETTING_SPINBOARD_SENDGRID_API_KEY: ${{secrets.APPSETTING_SPINBOARD_SENDGRID_API_KEY}}
             APPSETTING_AUTH_TOKEN: ${{secrets.APPSETTING_AUTH_TOKEN}}
             APPSETTING_ALEXA_NOTIFY_ME_TOKEN: ${{secrets.APPSETTING_ALEXA_NOTIFY_ME_TOKEN}}
-          registry: ${{ secrets.ACR_LOGIN_SERVER }}
-          username: ${{ secrets.ACR_REGISTRY_USERNAME }}
-          password: ${{ secrets.ACR_REGISTRY_PASSWORD }}
-      - name: Clean up
-        run: |
-          docker builder prune -f
+          registry: ${{ env.ACR_REGISTRY_USERNAME }}.azurecr.io
+          username: ${{ env.ACR_REGISTRY_USERNAME }}
+          password: ${{ env.ACR_REGISTRY_PASSWORD }}
