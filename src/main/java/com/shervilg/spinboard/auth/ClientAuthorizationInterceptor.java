@@ -19,8 +19,8 @@ public class ClientAuthorizationInterceptor {
   @Value("${auth.token}")
   private String authToken;
 
-  @Before(value = "@within(com.shervilg.spinboard.auth.ClientAuthorization) || " +
-      "@annotation(com.shervilg.spinboard.auth.ClientAuthorization)")
+  @Before(value = "@within(com.shervilg.spinboard.auth.ClientAuthentication) || " +
+      "@annotation(com.shervilg.spinboard.auth.ClientAuthentication)")
   public void before(JoinPoint joinPoint) {
     validateRequest();
   }

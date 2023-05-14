@@ -8,7 +8,5 @@ import java.util.List;
 public interface BirthdayService {
   Birthday createBirthday(BirthdayCreationRequest birthdayCreationRequest);
   List<Birthday> getAllBirthdays();
-  void checkAndSendBirthdayNotification();
   Birthday getNearestBirthday(String... args);
-  void checkTodaysBirthdaysAndSendNotification();
 }
